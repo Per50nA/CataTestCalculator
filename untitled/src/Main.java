@@ -58,11 +58,21 @@ public class Main {
                         num1 = Integer.toString(i+1);
                         n1 = true;
                     }
+                    else if (i == rim.length-1 && !isNum(num1)) {
+                        throw new Exception("over 10");
+                    }
                     if(num2.toUpperCase().equals(rim[i])){
                         num2 = Integer.toString(i+1);
                         n2 = true;
+                    } else if (i == rim.length-1 && !isNum(num2) ) {
+                        throw new Exception("over 10");
                     }
+
                 }
+
+            }
+            if (Integer.parseInt(num1) > 10 || Integer.parseInt(num1) < 1  || (Integer.parseInt(num2)) > 10 || Integer.parseInt(num2) < 1){
+                throw new Exception("number is over 10 or lower 1");
             }
             if (n1!= n2){throw new Exception("different number systems are used");}
         }catch (Exception e){
