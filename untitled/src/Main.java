@@ -3,6 +3,16 @@ import java.util.*;
 
 
 public class Main {
+
+    public static int reg(String str){
+        int count=0;
+        for (int i =0; i<str.length();i++){
+            if (str.toCharArray()[i] == '+' || str.toCharArray()[i] == '-' || str.toCharArray()[i] == '/' || str.toCharArray()[i] == '*'){
+                count++;
+            }
+        }
+        return  count;
+    }
     public  static  TreeMap<Integer,String> RimAsArab = new TreeMap<>(); //используем TreeMap как строго типизировнную структуру
     static {
         RimAsArab.put(1,"I");
@@ -35,24 +45,31 @@ public class Main {
     public static String proverka(String num1, String num2, char znak) {
         String[] rim = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
 
-        boolean n1 = false; boolean n2 = false;
-        if (isNum(num1)  && isNum(num2) ){//проверяем систему счисления
-            if (Integer.parseInt(num1) < 10 && Integer.parseInt(num2) <= 10) {
-
-            }
-        }else {
-            for (int i=0;i< rim.length;i++){//перевод из римских в арабские
-                if(num1.toUpperCase().equals(rim[i])){
-                    num1 = Integer.toString(i+1);
-                    n1 = true;
+        boolean n1 = false;
+        boolean n2 = false;
+        try {
+            if (isNum(num1)  && isNum(num2) ){//проверяем систему счисления
+                if (Integer.parseInt(num1) >= 10 && Integer.parseInt(num2) >= 10) {
+                    throw new Exception("number is over 10");
                 }
-                if(num2.toUpperCase().equals(rim[i])){
-                    num2 = Integer.toString(i+1);
-                    n2 = true;
+            }else {
+                for (int i=0;i< rim.length;i++){//перевод из римских в арабские
+                    if(num1.toUpperCase().equals(rim[i])){
+                        num1 = Integer.toString(i+1);
+                        n1 = true;
+                    }
+                    if(num2.toUpperCase().equals(rim[i])){
+                        num2 = Integer.toString(i+1);
+                        n2 = true;
+                    }
                 }
             }
+            if (n1!= n2){throw new Exception("different number systems are used");}
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
         }
-        if (n1 != n2) { System.out.println("Different number systems are used simultaneously"); return null;}// проверяем не используются ли одновременно разные системы счисления
+
 
         try {
             double prom = 0;
@@ -70,18 +87,17 @@ public class Main {
                     prom = Integer.parseInt(num1) * Integer.parseInt(num2);
                     break;
             }
-            if (n1 && ((int)(prom)) != 0){// проверям в какой системе счисления выводить ответ
+            if (n1 && ((int)(prom)) > 0){// проверям в какой системе счисления выводить ответ
                 System.out.println(perevod((int)(prom)));
-            } else if (n1 && ((int)(prom)) == 0) {
-                System.out.println("The result in the Roman numeral system cannot be equal to 0".getBytes(StandardCharsets.UTF_8));//Результат в римской системе счисления не может быть равен 0
+            } else if (n1 && ((int)(prom)) <= 0) {
+                throw new Exception("The result in the Roman numeral system cannot be equal or lower 0");//Результат в римской системе счисления не может быть равен 0
             } else {
                 System.out.println(prom);
             }
 
         }
-        catch (Exception e)
-        {
-            System.out.println("the format of the mathematical operation does not satisfy the task - two operands and one operator (+, -, /, *)");//формат математической операции не удовлетворяет заданию - два операнда и один оператор (+, -, /, *)
+        catch (Exception e) {
+            System.out.println(e);
         }
 
 
@@ -94,17 +110,24 @@ public class Main {
     {
         Scanner read = new Scanner(System.in);//создаем объект для чтения вводимых данных
         String str = read.nextLine();
-         str = str.trim();
-        if (str.length()<3) {
-            System.out.println("Not a math operation");//строка не является математической операцией
-        }
+        str = str.trim();
 
-        for (int i = 0; i < str.length(); i++) {
-            if (str.toCharArray()[i] == '+' || str.toCharArray()[i] == '-' || str.toCharArray()[i] == '/' || str.toCharArray()[i] == '*') {
-                proverka(str.substring(0, i), str.substring((i + 1)), str.toCharArray()[i]);
-                break;
+        try{
+            if (reg(str)>1) {throw new Exception("the format of the mathematical operation does not satisfy the task - two operands and one operator (+, -, /, *)");}
+            else {
+                for (int i = 0; i < str.length(); i++) {
+
+                    if (str.toCharArray()[i] == '+' || str.toCharArray()[i] == '-' || str.toCharArray()[i] == '/' || str.toCharArray()[i] == '*') {
+                        proverka(str.substring(0, i), str.substring((i + 1)), str.toCharArray()[i]);
+                        break;
+                    }
+                    else if(i == str.length()-1){
+                        throw new Exception("math is not operation");
+                    }
+                }
             }
-
+        }catch (Exception e){
+            System.out.println(e);
         }
     }
 
