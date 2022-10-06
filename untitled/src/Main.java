@@ -82,14 +82,14 @@ public class Main {
 
 
         try {
-            double prom = 0;
+            int prom = 0;
             switch (znak) {
                 case '+':
                     prom = Integer.parseInt(num1) + Integer.parseInt(num2);
                     break;
                 case '/':
-                    prom = Double.parseDouble(num1) / Double.parseDouble(num2);
-                    break;
+                   System.out.println(Double.parseDouble(num1) /Double.parseDouble(num2)); return  null;
+
                 case '-':
                     prom = Integer.parseInt(num1) - Integer.parseInt(num2);
                     break;
@@ -97,9 +97,9 @@ public class Main {
                     prom = Integer.parseInt(num1) * Integer.parseInt(num2);
                     break;
             }
-            if (n1 && ((int)(prom)) > 0){// проверям в какой системе счисления выводить ответ
-                System.out.println(perevod((int)(prom)));
-            } else if (n1 && ((int)(prom)) <= 0) {
+            if (n1 && ((prom)) > 0){// проверям в какой системе счисления выводить ответ
+                System.out.println(perevod((prom)));
+            } else if (n1 && ((prom)) <= 0) {
                 throw new Exception("The result in the Roman numeral system cannot be equal or lower 0");//Результат в римской системе счисления не может быть равен 0
             } else {
                 System.out.println(prom);
