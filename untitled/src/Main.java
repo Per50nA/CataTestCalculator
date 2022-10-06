@@ -49,7 +49,7 @@ public class Main {
         boolean n2 = false;
         try {
             if (isNum(num1)  && isNum(num2) ){//проверяем систему счисления
-                if (Integer.parseInt(num1) > 10 || Integer.parseInt(num1) < 1  || (Integer.parseInt(num2)) > 10 || Integer.parseInt(num2) < 1) {
+                if (Integer.parseInt(num1) > 10 || Integer.parseInt(num1) < 1  || (Integer.parseInt(num2)) > 10 || Integer.parseInt(num2) < 1) { //<- тут исправил
                     throw new Exception("number is over 10 or lower 1");
                 }
             }else {
